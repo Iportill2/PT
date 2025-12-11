@@ -21,6 +21,7 @@ typedef struct s_list {
 
 bool list_init(t_list *lst, size_t cap);
 void list_free(t_list *lst);
+bool list_push(t_list *lst, int value);
 
 
 

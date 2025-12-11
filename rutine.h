@@ -9,7 +9,6 @@ typedef struct s_args {
     t_list *neg;
 } t_args;
 
-
-
+void *rutine(void *arg);
 
 #endif

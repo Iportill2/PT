@@ -1,4 +1,17 @@
 #include "list.h"
+
+bool list_push(t_list *lst, int value)
+{
+    pthread_mutex_lock(&lst->lock);
+    if(lst->i >= lst->cap)
+    {
+        pthread_mutex_unlock(&lst->lock);
+        return(false);
+    }
+    lst->data[lst->i++] = value;
+    pthread_mutex_unlock(&lst->lock);
+    return true;
+}
 void list_free(t_list *lst)
 {
     if(lst ==NULL)

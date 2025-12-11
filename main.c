@@ -1,5 +1,6 @@
 #include"list.h"
 #include "rutine.h"
+#include "utils.h"
 bool parse_av(const char *av, unsigned int *out)
 {
     errno = 0;
@@ -17,22 +18,15 @@ bool parse_av(const char *av, unsigned int *out)
     *out =(unsigned int ) v;
     return true;
 }
-void putstr(const char *str, int fd)
+
+void list_print(const t_list *lst)
 {
-    int i =0;
-    while(str && str[i])
+    size_t i = 0;
+    while (i < lst->i)
     {
-        write(fd,&str[i], 1);
+        printf("[%zu] %d\n", i, lst->data[i]);
         i++;
     }
-    write(fd,"\n",1);
-}
-void *aa(void*arg)
-{
-    (void)arg;
-    
-    putstr("entra",1);
-    return NULL;
 }
 int main(int ac, char **av)
 {
@@ -77,9 +71,17 @@ int main(int ac, char **av)
     unsigned int i =0;
     while(i < num_threads)
     {
-        pthread_create(&threads[i],NULL,aa,&args);
+        pthread_create(&threads[i],NULL,rutine,&args);
         i++;
     }
+    i=0;
+    while(i < num_threads)
+    {
+        pthread_join(threads[i],NULL);
+        i++;
+    }
+    free(threads);
+    list_print(args.pos);
 
     putstr("FIN",fileno(stdout));
     return(EXIT_SUCCESS);
