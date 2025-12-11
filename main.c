@@ -1,10 +1,4 @@
-
-#include<unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <limits.h>
+#include"list.h"
 bool parse_av(const char *av, unsigned int *out)
 {
     errno = 0;
@@ -52,8 +46,16 @@ int main(int ac, char **av)
         putstr("ERROR : The arguments must be int with value > 0 ",fileno(stderr));
         return(EXIT_FAILURE);
     }
+    
+    size_t total =(size_t) num_per_threads * num_threads;
+    t_list positive_list, negative_list;
+    if(list_init(&positive_list, total)==false || list_init(&negative_list, total)==false)
+    {
+        putstr("ERROR : Error initializing lists", fileno(stderr));
+        return(EXIT_FAILURE);
+    }
+    pthread_t *threads = NULL;
     putstr("FIN",fileno(stdout));
-    //size_t total =(size_t) num_per_threads * num_threads;
     return(EXIT_SUCCESS);
 
 }
