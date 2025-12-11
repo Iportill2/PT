@@ -1,4 +1,5 @@
 #include"list.h"
+#include "rutine.h"
 bool parse_av(const char *av, unsigned int *out)
 {
     errno = 0;
@@ -26,7 +27,13 @@ void putstr(const char *str, int fd)
     }
     write(fd,"\n",1);
 }
-
+void *aa(void*arg)
+{
+    (void)arg;
+    
+    putstr("entra",1);
+    return NULL;
+}
 int main(int ac, char **av)
 {
     if(ac != 3)
@@ -55,6 +62,25 @@ int main(int ac, char **av)
         return(EXIT_FAILURE);
     }
     pthread_t *threads = NULL;
+    threads =malloc(sizeof(pthread_t) * num_threads);
+    if(threads == NULL)
+    {
+        putstr("ERROR: failed to allocate memory for threads",fileno(stderr));
+        list_free(&positive_list);
+        list_free(&negative_list);
+        return(EXIT_FAILURE);
+    }
+    t_args args;
+    args.per_thread=num_per_threads;
+    args.pos = &positive_list;
+    args.neg = &negative_list;
+    unsigned int i =0;
+    while(i < num_threads)
+    {
+        pthread_create(&threads[i],NULL,aa,&args);
+        i++;
+    }
+
     putstr("FIN",fileno(stdout));
     return(EXIT_SUCCESS);
 

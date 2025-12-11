@@ -1,4 +1,14 @@
 #include "list.h"
+void list_free(t_list *lst)
+{
+    if(lst ==NULL)
+        return;
+    pthread_mutex_destroy(&lst->lock);
+    free(lst->data);
+    lst->data =NULL;
+    lst->i =0;
+    lst->cap =0;
+}
 bool list_init(t_list *lst, size_t cap)
 {
     lst->data = NULL;

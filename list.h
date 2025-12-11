@@ -20,6 +20,7 @@ typedef struct s_list {
 } t_list;
 
 bool list_init(t_list *lst, size_t cap);
+void list_free(t_list *lst);
 
 
 
