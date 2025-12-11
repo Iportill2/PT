@@ -81,7 +81,22 @@ int main(int ac, char **av)
         i++;
     }
     free(threads);
-    list_print(args.pos);
+
+
+    list_sort(&positive_list);
+    list_sort(&negative_list);
+    
+    putstr("Negative list",fileno(stdout));
+    list_print(&negative_list);
+    
+    putstr("Positive list",fileno(stdout));
+    list_print(&positive_list);
+
+    list_free(&negative_list);
+    list_free(&positive_list);
+
+    //list_free(args.neg);
+    //list_free(args.pos);
 
     putstr("FIN",fileno(stdout));
     return(EXIT_SUCCESS);
