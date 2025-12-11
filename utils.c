@@ -1,4 +1,30 @@
 #include "utils.h"
+void list_print(const t_list *lst)
+{
+    size_t i = 0;
+    while (i < lst->i)
+    {
+        printf("[%zu] %d\n", i, lst->data[i]);
+        i++;
+    }
+}
+bool parse_av(const char *av, unsigned int *out)
+{
+    errno = 0;
+    char *end;
+    long v =strtol(av, &end, 10);
+
+    if(end == av)
+        return false;
+    if(errno == ERANGE)
+        return false;
+    if(*end != '\0')
+        return false;
+    if(v < INT_MIN || v > INT_MAX)
+        return false;
+    *out =(unsigned int ) v;
+    return true;
+}
 void putstr(const char *str, int fd)
 {
     int i =0;

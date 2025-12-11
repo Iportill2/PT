@@ -1,33 +1,9 @@
 #include"list.h"
 #include "rutine.h"
 #include "utils.h"
-bool parse_av(const char *av, unsigned int *out)
-{
-    errno = 0;
-    char *end;
-    long v =strtol(av, &end, 10);
 
-    if(end == av)
-        return false;
-    if(errno == ERANGE)
-        return false;
-    if(*end != '\0')
-        return false;
-    if(v < INT_MIN || v > INT_MAX)
-        return false;
-    *out =(unsigned int ) v;
-    return true;
-}
 
-void list_print(const t_list *lst)
-{
-    size_t i = 0;
-    while (i < lst->i)
-    {
-        printf("[%zu] %d\n", i, lst->data[i]);
-        i++;
-    }
-}
+
 int main(int ac, char **av)
 {
     if(ac != 3)
@@ -85,7 +61,7 @@ int main(int ac, char **av)
 
     list_sort(&positive_list);
     list_sort(&negative_list);
-    
+
     putstr("Negative list",fileno(stdout));
     list_print(&negative_list);
     
@@ -95,10 +71,7 @@ int main(int ac, char **av)
     list_free(&negative_list);
     list_free(&positive_list);
 
-    //list_free(args.neg);
-    //list_free(args.pos);
 
-    putstr("FIN",fileno(stdout));
     return(EXIT_SUCCESS);
 
 }
